@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Observatório Municipal de Dados</title>
+    <style>
+        /* Estilos baseados no Fluent Design corporativo */
+        :root {
+            --bg-color: #faf9f8;
+            --header-bg: #005a9e; /* Azul institucional */
+            --text-main: #323130;
+            --text-light: #ffffff;
+            --sidebar-bg: #f3f2f1;
+            --card-bg: #ffffff;
+            --border-color: #e1dfdd;
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', -apple-system, Roboto, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Cabeçalho superior */
+        .header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 50px;
+            background-color: var(--header-bg);
+            color: var(--text-light);
+            display: flex;
+            align-items: center;
+            padding: 0 20px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 1000;
+        }
+
+        .header h1 {
+            font-size: 16px;
+            font-weight: 600;
+            margin: 0;
+        }
+
+        /* Layout principal */
+        .app-container {
+            display: flex;
+            width: 100%;
+            margin-top: 50px; /* Compensa o header fixo */
+        }
+
+        /* Menu Lateral */
+        .sidebar {
+            width: 220px;
+            background-color: var(--sidebar-bg);
+            border-right: 1px solid var(--border-color);
+            padding: 20px 0;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .nav-item {
+            padding: 12px 24px;
+            text-decoration: none;
+            color: var(--text-main);
+            font-size: 14px;
+            display: block;
+            transition: background 0.2s;
+        }
+
+        .nav-item:hover, .nav-item.active {
+            background-color: #edebe9;
+            border-left: 3px solid var(--header-bg);
+            font-weight: 600;
+        }
+
+        /* Área de Conteúdo */
+        .main-content {
+            flex: 1;
+            padding: 24px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 24px;
+        }
+
+        .page-header h2 {
+            margin: 0 0 8px 0;
+            font-size: 24px;
+            font-weight: 600;
+        }
+
+        .page-header p {
+            margin: 0;
+            color: #605e5c;
+            font-size: 14px;
+        }
+
+        /* Cartão do Dashboard */
+        .dashboard-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 4px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            padding: 8px;
+            /* Calcula a altura dinamicamente para não ter barra de rolagem dupla */
+            height: calc(100vh - 160px); 
+        }
+
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            border-radius: 2px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Cabeçalho -->
+    <header class="header">
+        <h1>Observatório Municipal de Dados - PMPV (Teste)</h1>
+    </header>
+
+    <div class="app-container">
+        <!-- Menu Lateral -->
+        <nav class="sidebar">
+            <a href="#" class="nav-item active">Painel Estratégico</a>
+            <a href="#" class="nav-item">Receitas e Despesas</a>
+            <a href="#" class="nav-item">Educação e Saúde</a>
+            <a href="#" class="nav-item">Dados Abertos</a>
+        </nav>
+
+        <!-- Área Central -->
+        <main class="main-content">
+            <div class="page-header">
+                <h2>Visão Geral do Município</h2>
+                <p>Acompanhamento de indicadores, metas e execução pública.</p>
+            </div>
+
+            <!-- Container do Power BI -->
+            <div class="dashboard-container">
+                <iframe title="Dashboard Observatorio" 
+                        src="https://app.powerbi.com/view?r=eyJrIjoiNWQzNzg0NDMtYzg4MS00MWE0LWJmZTYtYjE0MGY2ZWM3MDlhIiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9" 
+                        allowFullScreen="true">
+                </iframe>
+            </div>
+        </main>
+    </div>
+
+</body>
+</html>
