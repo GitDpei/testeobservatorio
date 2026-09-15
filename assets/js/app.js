@@ -203,7 +203,6 @@
   var migalhas = $('#migalhas');
   var acoes = $('#acoes-painel');
   var anunciador = $('#anunciador');
-  var toast = $('#toast');
 
   var vistas = {
     inicio: $('#vista-inicio'),
@@ -698,7 +697,6 @@
       mostrarVista('painel');
       tituloPainel.textContent = painel.titulo;
       linkAvisoNovaAba.href = painel.url;
-      $('#acao-nova-aba').href = painel.url;
       marcarAtivo(painel.rota);
       abrirSecaoDoPainel(painel);
       // O título do painel já aparece no <h1>; a trilha mostra o caminho até a seção.
@@ -732,62 +730,34 @@
   }
 
   /* ----------------------------------------------------------
-   * Ações do painel
+   * Ação do painel (tela cheia)
    * -------------------------------------------------------- */
-  var temporizadorToast = null;
-  function mostrarToast(mensagem) {
-    toast.textContent = mensagem;
-    toast.classList.add('is-visivel');
-    clearTimeout(temporizadorToast);
-    temporizadorToast = setTimeout(function () { toast.classList.remove('is-visivel'); }, 2600);
-  }
-
-  function copiarTexto(texto) {
-    if (navigator.clipboard && window.isSecureContext) return navigator.clipboard.writeText(texto);
-    return new Promise(function (resolver, rejeitar) {
-      var area = el('textarea', { readonly: true, class: 'sr-only' });
-      area.value = texto;
-      document.body.appendChild(area);
-      area.select();
-      try { document.execCommand('copy') ? resolver() : rejeitar(); } catch (e) { rejeitar(e); }
-      area.remove();
-    });
-  }
-
   function configurarAcoes() {
-    $('#acao-recarregar').addEventListener('click', function () {
-      if (painelAtual) exibirIframe(painelAtual, true);
-    });
-
-    $('#acao-copiar').addEventListener('click', function () {
-      copiarTexto(window.location.href)
-        .then(function () { mostrarToast('Link do painel copiado'); })
-        .catch(function () { mostrarToast('Não foi possível copiar. Copie o endereço da barra do navegador.'); });
-    });
-
     var botaoTelaCheia = $('#acao-tela-cheia');
     var suportaTelaCheia = document.fullscreenEnabled || document.webkitFullscreenEnabled;
     if (!suportaTelaCheia) {
       botaoTelaCheia.hidden = true;
-    } else {
-      botaoTelaCheia.addEventListener('click', function () {
-        var emTelaCheia = document.fullscreenElement || document.webkitFullscreenElement;
-        if (emTelaCheia) {
-          (document.exitFullscreen || document.webkitExitFullscreen).call(document);
-        } else {
-          var alvo = $('.palco-moldura');
-          (alvo.requestFullscreen || alvo.webkitRequestFullscreen).call(alvo);
-        }
-      });
-      var aoMudarTelaCheia = function () {
-        var ativo = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
-        botaoTelaCheia.setAttribute('aria-pressed', String(ativo));
-        $('.acao__texto', botaoTelaCheia).textContent = ativo ? 'Sair da tela cheia' : 'Tela cheia';
-        $('use', botaoTelaCheia).setAttribute('href', ativo ? '#i-sair-tela-cheia' : '#i-tela-cheia');
-      };
-      document.addEventListener('fullscreenchange', aoMudarTelaCheia);
-      document.addEventListener('webkitfullscreenchange', aoMudarTelaCheia);
+      return;
     }
+
+    botaoTelaCheia.addEventListener('click', function () {
+      var emTelaCheia = document.fullscreenElement || document.webkitFullscreenElement;
+      if (emTelaCheia) {
+        (document.exitFullscreen || document.webkitExitFullscreen).call(document);
+      } else {
+        var alvo = $('.palco-moldura');
+        (alvo.requestFullscreen || alvo.webkitRequestFullscreen).call(alvo);
+      }
+    });
+
+    var aoMudarTelaCheia = function () {
+      var ativo = Boolean(document.fullscreenElement || document.webkitFullscreenElement);
+      botaoTelaCheia.setAttribute('aria-pressed', String(ativo));
+      $('.acao__texto', botaoTelaCheia).textContent = ativo ? 'Sair da tela cheia' : 'Tela cheia';
+      $('use', botaoTelaCheia).setAttribute('href', ativo ? '#i-sair-tela-cheia' : '#i-tela-cheia');
+    };
+    document.addEventListener('fullscreenchange', aoMudarTelaCheia);
+    document.addEventListener('webkitfullscreenchange', aoMudarTelaCheia);
   }
 
   /* ----------------------------------------------------------
