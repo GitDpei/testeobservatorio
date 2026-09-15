@@ -70,6 +70,8 @@
       <symbol id="i-barras" viewBox="0 0 24 24"><path d="M3 3v18h18"/><path d="M8 17v-5M13 17V8M18 17v-8"/></symbol>
       <symbol id="i-planta" viewBox="0 0 24 24"><path d="M3 21V8l6-4v17"/><path d="M9 21h12V11l-6-3"/><path d="M13 13h2M13 17h2M5.5 11h1M5.5 15h1"/></symbol>
       <symbol id="i-escudo" viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 4.5 3.4 8.1 8 9 4.6-.9 8-4.5 8-9V6z"/><path d="M9 12l2 2 4-4"/></symbol>
+      <symbol id="i-medidor" viewBox="0 0 24 24"><path d="M4 18a9 9 0 1 1 16 0"/><path d="M12 14l4.5-4.5"/><circle cx="12" cy="14" r="1.2"/></symbol>
+      <symbol id="i-trofeu" viewBox="0 0 24 24"><path d="M7 4h10v5a5 5 0 0 1-10 0z"/><path d="M17 6h2.5a2.5 2.5 0 0 1-2.5 4M7 6H4.5A2.5 2.5 0 0 0 7 10"/><path d="M12 14v3M8 21h8M9.5 17h5"/></symbol>
       <symbol id="i-banco-dados" viewBox="0 0 24 24"><ellipse cx="12" cy="5.5" rx="7.5" ry="2.5"/><path d="M4.5 5.5v13c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5v-13"/><path d="M4.5 12c0 1.4 3.4 2.5 7.5 2.5s7.5-1.1 7.5-2.5"/></symbol>
       <!-- interface -->
       <symbol id="i-inicio" viewBox="0 0 24 24"><path d="M3 11l9-7 9 7"/><path d="M5 10v10h14V10"/><path d="M10 20v-6h4v6"/></symbol>
@@ -174,38 +176,74 @@
 
         <!-- Página inicial -->
         <section class="vista vista--inicio" id="vista-inicio" aria-labelledby="titulo-inicio">
-          <div class="destaque">
-            <h1 class="destaque__titulo" id="titulo-inicio" tabindex="-1" data-foco>
-              <img class="destaque__logo" src="assets/img/logo-branco.png" alt="Observatório Municipal de Porto Velho" width="1000" height="316" decoding="async" fetchpriority="high">
-            </h1>
-            <p class="destaque__descricao">Painéis interativos com dados públicos sobre a população, o território, a economia, as finanças e os serviços do município. Escolha um tema no menu ou nos cartões abaixo.</p>
-            <dl class="numeros">
-              <div class="numeros__item"><dt>temas</dt><dd id="total-temas">–</dd></div>
-              <div class="numeros__item"><dt>painéis</dt><dd id="total-paineis">–</dd></div>
-            </dl>
-            <div class="destaque__acoes">
-              <a class="botao botao--destaque" href="#temas" id="ir-temas">
-                Explorar temas
-                <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-seta-direita"/></svg>
-              </a>
-              <button class="botao" type="button" id="focar-busca">
-                <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-busca"/></svg>
-                Buscar painel
-              </button>
+
+          <header class="abertura">
+            <div class="abertura__texto">
+              <p class="abertura__local">Porto Velho · Rondônia</p>
+              <h1 class="abertura__titulo" id="titulo-inicio" tabindex="-1" data-foco>Observatório Municipal de Dados</h1>
+              <p class="abertura__descricao">Os números públicos do município reunidos em painéis interativos: população, território, economia, finanças, serviços e meio ambiente.</p>
             </div>
-          </div>
+            <div class="abertura__moldura">
+              <img class="abertura__logo" src="assets/img/logo-branco.png" alt="" width="1000" height="316" decoding="async">
+            </div>
+          </header>
 
-          <div class="dica-uso">
-            <span class="dica-uso__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-info"/></svg></span>
-            <p>Os painéis são interativos: clique nos gráficos para filtrar, navegue pelas páginas na barra inferior de cada painel e use <strong>Tela cheia</strong> para ver os detalhes. Cada painel tem um endereço próprio que pode ser compartilhado.</p>
-          </div>
+          <ul class="resumo" role="list">
+            <li class="resumo__item">
+              <span class="resumo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-prancheta"/></svg></span>
+              <p class="resumo__rotulo">Temas</p>
+              <p class="resumo__valor" id="total-temas">–</p>
+              <p class="resumo__nota">áreas de dados</p>
+            </li>
+            <li class="resumo__item">
+              <span class="resumo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-barras"/></svg></span>
+              <p class="resumo__rotulo">Painéis</p>
+              <p class="resumo__valor" id="total-paineis">–</p>
+              <p class="resumo__nota">prontos para consulta</p>
+            </li>
+            <li class="resumo__item resumo__item--atalho">
+              <a class="resumo__link" id="atalho-destaque" href="#/">
+                <span class="resumo__icone"><svg class="icone" aria-hidden="true" focusable="false"><use href="#i-seta-direita"/></svg></span>
+                <span class="resumo__rotulo">Comece por</span>
+                <span class="resumo__valor" id="atalho-titulo">–</span>
+                <span class="resumo__nota" id="atalho-nota">o maior conjunto de painéis</span>
+              </a>
+            </li>
+          </ul>
 
-          <h2 class="secao-titulo" id="temas" tabindex="-1">Temas</h2>
-          <ul class="grade-temas" id="grade-temas" role="list"></ul>
+          <div class="colunas">
+            <section class="temas" aria-labelledby="titulo-temas">
+              <div class="cabecalho-secao">
+                <h2 class="cabecalho-secao__titulo" id="titulo-temas" tabindex="-1">Temas</h2>
+                <p class="cabecalho-secao__nota">Clique em um painel para abrir</p>
+              </div>
+              <ul class="grade-temas" id="grade-temas" role="list"></ul>
+            </section>
+
+            <aside class="coluna-lateral" aria-label="Resumo do acervo">
+              <section class="bloco" aria-labelledby="titulo-distribuicao">
+                <h2 class="bloco__titulo" id="titulo-distribuicao">Painéis por tema</h2>
+                <ul class="barras" id="barras-temas" role="list"></ul>
+              </section>
+
+              <section class="bloco" aria-labelledby="titulo-como-usar">
+                <h2 class="bloco__titulo" id="titulo-como-usar">Como usar</h2>
+                <ol class="passos">
+                  <li>Escolha um tema no menu ao lado ou nos cartões.</li>
+                  <li>Clique nos gráficos para filtrar. As páginas de cada painel ficam na barra inferior dele.</li>
+                  <li><strong>Tela cheia</strong> amplia o painel e <strong>Copiar link</strong> gera um endereço direto para ele.</li>
+                </ol>
+              </section>
+            </aside>
+          </div>
 
           <footer class="rodape">
-            <img src="assets/img/simbolo-branco.png" alt="" width="176" height="123" loading="lazy">
-            <p>© <span id="ano-atual">2026</span> Observatório Municipal de Porto Velho · Painéis publicados com Microsoft Power BI.</p>
+            <img class="rodape__marca" src="assets/img/simbolo-branco.png" alt="" width="176" height="123" loading="lazy">
+            <p class="rodape__texto">
+              © <span id="ano-atual">2026</span> Observatório Municipal de Porto Velho
+              <span class="rodape__orgao">Departamento de Pesquisa, Estatística e Indicadores — DPEI</span>
+            </p>
+            <p class="rodape__nota">Painéis publicados com Microsoft Power BI</p>
           </footer>
         </section>
 
