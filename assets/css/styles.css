@@ -25,56 +25,47 @@
 
 /* 2. Tokens de design ===================================================== */
 :root {
-  /* Cores da marca (extraídas do logo e do modelo) */
-  --azul-950: #04032c;
-  --azul-900: #0a0931;
-  --azul-850: #0f0e3d;
-  --azul-800: #14143c;
-  --azul-700: #1b1f55;
-  --ambar-300: #fbc26b;
-  --ambar-400: #f7a534;
-  --ambar-500: #eb850d; /* laranja de destaque do UI.png */
+  /* Marca */
+  --azul-950: #04032c;        /* azul do logo — usado como texto sobre âmbar */
+  --ambar-400: #f0a02a;       /* preenchimento de destaque */
+  --ambar-300: #ffbd60;       /* destaque sob o ponteiro */
+  --ambar-texto: #8a5306;     /* âmbar legível como texto sobre fundo claro */
 
-  /* Texto sobre vidro escuro */
-  --texto: #f3f4ff;
-  --texto-2: rgba(232, 234, 255, 0.76);
-  --texto-3: rgba(232, 234, 255, 0.56);
+  /* Superfícies claras (soft UI em luz): gelo, branco e sombra suave */
+  --fundo: #e9edf4;           /* fundo da página (gelo) */
+  --janela: #f3f6fb;          /* menu lateral e janela principal */
+  --janela-topo: #f9fbfd;
+  --superficie: #ffffff;      /* cartões */
+  --superficie-2: #f4f7fd;    /* cartão sob o ponteiro */
+  --poco: #e7ecf5;            /* campos, trilhos e ícones afundados */
+  --pilula: #ffffff;
+  --linha: rgba(20, 26, 60, 0.09);
 
-  /* Superfícies foscas (soft UI) — nada de vidro nem brilho colorido */
-  --fundo: #0d0d20;
-  --janela: #14142f;          /* menu lateral e janela principal */
-  --janela-topo: #17173a;     /* leve variação para dar profundidade */
-  --superficie: #17173a;      /* cartões */
-  --superficie-2: #1d1d48;    /* cartão sob o ponteiro */
-  --poco: #101026;            /* campos e trilhos afundados */
-  --linha: rgba(255, 255, 255, 0.055);
-  --pilula: #1c1c42;
+  /* Texto */
+  --texto: #1c2244;           /* corrente */
+  --texto-forte: #0e1330;     /* títulos e realces */
+  --texto-2: #4a5273;         /* secundário */
+  --texto-3: #69718f;         /* apoio (contraste AA em branco e em gelo) */
 
   /* Sombras: luz no canto superior esquerdo, sombra no inferior direito */
-  --relevo-alto: 14px 14px 32px rgba(0, 0, 0, 0.55), -10px -10px 26px rgba(255, 255, 255, 0.022);
-  --relevo: 8px 8px 20px rgba(0, 0, 0, 0.45), -6px -6px 16px rgba(255, 255, 255, 0.02);
-  --relevo-leve: 4px 4px 12px rgba(0, 0, 0, 0.38), -3px -3px 9px rgba(255, 255, 255, 0.018);
-  --afundado: inset 5px 5px 12px rgba(0, 0, 0, 0.55), inset -4px -4px 10px rgba(255, 255, 255, 0.022);
-  --afundado-leve: inset 3px 3px 8px rgba(0, 0, 0, 0.45), inset -2px -2px 6px rgba(255, 255, 255, 0.018);
+  --relevo-alto: 18px 18px 40px rgba(24, 32, 72, 0.13), -12px -12px 30px rgba(255, 255, 255, 0.95);
+  --relevo: 10px 10px 24px rgba(24, 32, 72, 0.10), -8px -8px 20px rgba(255, 255, 255, 0.92);
+  --relevo-leve: 5px 5px 14px rgba(24, 32, 72, 0.08), -4px -4px 10px rgba(255, 255, 255, 0.88);
+  --afundado: inset 5px 5px 12px rgba(24, 32, 72, 0.10), inset -4px -4px 10px rgba(255, 255, 255, 0.95);
+  --afundado-leve: inset 3px 3px 8px rgba(24, 32, 72, 0.08), inset -2px -2px 6px rgba(255, 255, 255, 0.9);
+  --sombra-janela: var(--relevo-alto);
+  --sombra-flutuante: 0 18px 44px -14px rgba(24, 32, 72, 0.3);
 
-  /* Cores dos anéis (foscas, derivadas da marca) */
-  --anel-1: #e0a044;
-  --anel-2: #7b84cf;
-  --anel-3: #4fa396;
-
-  /* Forma e espaço */
-  --raio-janela: 28px;
-  --raio-cartao: 22px;
-  --raio-controle: 14px;
-  --espaco: 16px;
-  --largura-lateral: 316px;
-  --largura-trilho: 84px;
+  /* Cores dos anéis (foscas, legíveis sobre branco) */
+  --anel-1: #dd9220;
+  --anel-2: #5560b8;
+  --anel-3: #2f8a7b;
 
   /* ---- Encaixe do painel do Power BI -----------------------------------
      O Power BI desenha o relatório no modo "ajustar à página": ele mantém a
      proporção original e preenche o resto de branco. Para não aparecer faixa
      branca, a moldura do painel é recortada na MESMA proporção do relatório
-     (nada é esticado; o que sobra fica com o fundo escuro do site).
+     (nada é esticado; o que sobra fica com o fundo da janela).
 
      --razao-painel   = largura ÷ altura da página do relatório.
                         Medido nos painéis da Prefeitura: 1600 × 873 = 1.8326.
@@ -88,17 +79,21 @@
   --razao-painel: 1.8326;
   --barra-powerbi: 60px;
 
+  /* Forma e espaço */
+  --raio-janela: 28px;
+  --raio-cartao: 22px;
+  --raio-controle: 14px;
+  --espaco: 12px;
+  --largura-lateral: 316px;
+  --largura-trilho: 84px;
+
   /* Tipografia */
   --fonte: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
 
   /* Movimento */
   --suave: cubic-bezier(0.2, 0.8, 0.2, 1);
 
-  /* Sombras de janela e elementos flutuantes */
-  --sombra-janela: var(--relevo-alto);
-  --sombra-flutuante: 0 18px 44px -14px rgba(0, 0, 0, 0.75);
-
-  color-scheme: dark;
+  color-scheme: light;
 }
 
 /* 3. Base ================================================================= */
@@ -127,8 +122,8 @@ body {
   -moz-osx-font-smoothing: grayscale;
   font-feature-settings: "cv11", "ss01"; /* Inter: dígitos e "a" mais legíveis */
   background:
-    radial-gradient(90vmax 70vmax at 12% -10%, rgba(255, 255, 255, 0.035), transparent 60%),
-    linear-gradient(160deg, #101026 0%, var(--fundo) 55%, #0a0a1a 100%);
+    radial-gradient(90vmax 70vmax at 12% -10%, rgba(255, 255, 255, 0.9), transparent 62%),
+    linear-gradient(160deg, #f2f5fb 0%, var(--fundo) 55%, #dfe5f0 100%);
 }
 
 /* Painéis de parede sutis, como o fundo do UI.png */
@@ -139,12 +134,12 @@ body::before {
   z-index: 0;
   pointer-events: none;
   background-image:
-    linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    linear-gradient(to right, rgba(20, 26, 60, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(20, 26, 60, 0.05) 1px, transparent 1px);
   background-size: 128px 128px;
   opacity: 0.5;
-  -webkit-mask-image: radial-gradient(120% 90% at 50% 30%, #000 0%, rgba(0, 0, 0, 0.25) 55%, transparent 80%);
-  mask-image: radial-gradient(120% 90% at 50% 30%, #000 0%, rgba(0, 0, 0, 0.25) 55%, transparent 80%);
+  -webkit-mask-image: radial-gradient(120% 90% at 50% 30%, #000 0%, rgba(0, 0, 0, 0.3) 55%, transparent 80%);
+  mask-image: radial-gradient(120% 90% at 50% 30%, #000 0%, rgba(0, 0, 0, 0.3) 55%, transparent 80%);
 }
 
 img, svg { display: block; max-width: 100%; }
@@ -153,10 +148,10 @@ button { cursor: pointer; }
 a { color: inherit; }
 h1, h2, h3 { line-height: 1.2; }
 
-::selection { background: rgba(247, 165, 52, 0.35); color: #fff; }
+::selection { background: rgba(240, 160, 42, 0.35); color: var(--texto-forte); }
 
 :focus-visible {
-  outline: 2px solid var(--ambar-400);
+  outline: 2px solid var(--ambar-texto);
   outline-offset: 2px;
 }
 [tabindex="-1"]:focus { outline: none; }
@@ -196,6 +191,7 @@ h1, h2, h3 { line-height: 1.2; }
   border-radius: 10px;
   background: var(--ambar-400);
   color: var(--azul-950);
+  box-shadow: var(--sombra-flutuante);
   font-weight: 700;
   text-decoration: none;
   transform: translateY(-160%);
@@ -204,7 +200,7 @@ h1, h2, h3 { line-height: 1.2; }
 .pular-link:focus { transform: none; }
 
 .vidro {
-  background: linear-gradient(165deg, var(--janela-topo) 0%, var(--janela) 60%, #111129 100%);
+  background: linear-gradient(165deg, var(--janela-topo) 0%, var(--janela) 60%, #eef2f9 100%);
   border: 0;
   border-radius: var(--raio-janela);
   box-shadow: var(--relevo-alto);
@@ -224,7 +220,7 @@ h1, h2, h3 { line-height: 1.2; }
   color: var(--texto);
   transition: box-shadow 0.2s, color 0.2s;
 }
-.botao-icone:hover { color: #fff; box-shadow: var(--relevo); }
+.botao-icone:hover { color: var(--texto-forte); box-shadow: var(--relevo); }
 .botao-icone:active { box-shadow: var(--afundado-leve); }
 
 .botao {
@@ -238,7 +234,7 @@ h1, h2, h3 { line-height: 1.2; }
   border-radius: 999px;
   background: var(--pilula);
   box-shadow: var(--relevo);
-  color: #fff;
+  color: var(--texto);
   font-size: 15px;
   font-weight: 600;
   line-height: 1;
@@ -251,16 +247,16 @@ h1, h2, h3 { line-height: 1.2; }
 
 .botao--destaque {
   background: var(--ambar-400);
-  color: #1b1200;
-  box-shadow: 8px 8px 20px rgba(0, 0, 0, 0.45), -4px -4px 12px rgba(255, 255, 255, 0.03);
+  color: #24190a;
+  box-shadow: 8px 8px 20px rgba(184, 120, 20, 0.28), -5px -5px 14px rgba(255, 255, 255, 0.9);
 }
 .botao--destaque:hover { background: var(--ambar-300); }
 
 mark {
-  padding: 0 1px;
-  border-radius: 3px;
-  background: rgba(247, 165, 52, 0.35);
-  color: #fff;
+  padding: 0 2px;
+  border-radius: 4px;
+  background: rgba(240, 160, 42, 0.32);
+  color: var(--texto-forte);
 }
 
 /* 5. Estrutura ============================================================ */
@@ -293,10 +289,10 @@ mark {
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.22) transparent;
+  scrollbar-color: rgba(28, 34, 68, 0.22) transparent;
   outline: none;
 }
-.app[data-vista="painel"] .principal { overflow: hidden; padding: 14px; }
+.app[data-vista="painel"] .principal { overflow: hidden; padding: 10px; }
 
 /* 6. Menu lateral ========================================================= */
 .lateral {
@@ -381,7 +377,7 @@ mark {
   overflow-y: auto;
   overscroll-behavior: contain;
   scrollbar-width: thin;
-  scrollbar-color: rgba(255, 255, 255, 0.2) transparent;
+  scrollbar-color: rgba(28, 34, 68, 0.2) transparent;
 }
 
 .nav {
@@ -423,12 +419,12 @@ mark {
   text-decoration: none;
   transition: background-color 0.2s, box-shadow 0.2s, color 0.2s;
 }
-.nav__secao:hover { background: var(--superficie); box-shadow: var(--relevo-leve); color: #fff; }
-.nav__secao[aria-expanded="true"] { background: var(--superficie); color: #fff; }
+.nav__secao:hover { background: var(--superficie); box-shadow: var(--relevo-leve); color: var(--texto-forte); }
+.nav__secao[aria-expanded="true"] { background: var(--superficie); color: var(--texto-forte); }
 .nav__secao[aria-current="page"] {
-  background: var(--superficie-2);
+  background: var(--superficie);
   box-shadow: var(--relevo);
-  color: #fff;
+  color: var(--texto-forte);
   font-weight: 600;
 }
 
@@ -447,8 +443,8 @@ mark {
 .nav__icone .icone { width: 18px; height: 18px; }
 .nav__item.is-ativo > .nav__secao .nav__icone {
   background: var(--ambar-400);
-  color: #1b1200;
-  box-shadow: inset -2px -2px 6px rgba(0, 0, 0, 0.25), 3px 3px 10px rgba(0, 0, 0, 0.45);
+  color: #24190a;
+  box-shadow: 4px 4px 10px rgba(184, 120, 20, 0.35), inset -2px -2px 6px rgba(160, 100, 10, 0.25);
 }
 
 .nav__rotulo {
@@ -506,7 +502,7 @@ mark {
   bottom: 14px;
   left: 24px;
   width: 1px;
-  background: linear-gradient(rgba(255, 255, 255, 0.24), rgba(255, 255, 255, 0.06));
+  background: linear-gradient(rgba(28, 34, 68, 0.16), rgba(28, 34, 68, 0.04));
 }
 
 .nav__link {
@@ -528,23 +524,23 @@ mark {
   left: -15.5px;
   width: 7px;
   height: 7px;
-  border: 1px solid rgba(255, 255, 255, 0.22);
+  border: 1px solid rgba(28, 34, 68, 0.18);
   border-radius: 50%;
   background: var(--poco);
   transform: translate(-50%, -50%);
   transition: background-color 0.2s, border-color 0.2s, box-shadow 0.2s;
 }
-.nav__link:hover { background: var(--superficie); color: #fff; }
+.nav__link:hover { background: var(--superficie); color: var(--texto-forte); }
 .nav__link[aria-current="page"] {
-  background: var(--superficie-2);
+  background: var(--superficie);
   box-shadow: var(--relevo-leve);
-  color: #fff;
+  color: var(--texto-forte);
   font-weight: 600;
 }
 .nav__link[aria-current="page"]::before {
   border-color: var(--ambar-400);
   background: var(--ambar-400);
-  box-shadow: 0 0 0 4px rgba(247, 165, 52, 0.22);
+  box-shadow: 0 0 0 4px rgba(240, 160, 42, 0.22);
 }
 
 .nav__vazio { margin: 14px 10px; color: var(--texto-3); font-size: 14px; }
@@ -566,7 +562,7 @@ mark {
   font-weight: 500;
   transition: background-color 0.2s, color 0.2s;
 }
-.botao-recolher:hover { background: rgba(255, 255, 255, 0.08); color: #fff; }
+.botao-recolher:hover { background: var(--superficie); box-shadow: var(--relevo-leve); color: var(--texto-forte); }
 .botao-recolher .icone { transition: transform 0.3s var(--suave); }
 
 /* 7. Menu recolhido: trilho flutuante de ícones (desktop) ================= */
@@ -592,7 +588,7 @@ mark {
   color: var(--texto-2);
   transition: box-shadow 0.2s, color 0.2s;
 }
-.app[data-menu="recolhido"] .busca__trilho:hover { box-shadow: var(--relevo-leve); color: #fff; background: var(--superficie); }
+.app[data-menu="recolhido"] .busca__trilho:hover { box-shadow: var(--relevo-leve); color: var(--texto-forte); background: var(--superficie); }
 
 .app[data-menu="recolhido"] .lateral__nav { padding: 4px 0 12px; scrollbar-width: none; }
 .app[data-menu="recolhido"] .lateral__nav::-webkit-scrollbar { display: none; }
@@ -623,7 +619,7 @@ mark {
   height: 1px;
   margin: 10px auto;
   overflow: hidden;
-  background: rgba(255, 255, 255, 0.16);
+  background: rgba(28, 34, 68, 0.14);
   color: transparent;
 }
 .app[data-menu="recolhido"] .lateral__rodape { border-top-color: transparent; }
@@ -649,8 +645,8 @@ mark {
   display: flex;
   align-items: center;
   gap: 12px;
-  min-height: 74px;
-  padding: 12px 14px 12px 24px;
+  min-height: 58px;
+  padding: 8px 12px 8px 20px;
   border-bottom: 1px solid var(--linha);
 }
 .app[data-vista="inicio"] .topo { display: none; }
@@ -665,18 +661,18 @@ mark {
   margin: 0;
   padding: 0;
   color: var(--texto-3);
-  font-size: 12.5px;
+  font-size: 11.5px;
   font-weight: 500;
   list-style: none;
 }
 .migalhas__item + .migalhas__item::before { content: "›"; margin-right: 6px; }
 .migalhas a { color: var(--texto-2); text-decoration: none; }
-.migalhas a:hover { color: #fff; text-decoration: underline; text-underline-offset: 3px; }
+.migalhas a:hover { color: var(--texto-forte); text-decoration: underline; text-underline-offset: 3px; }
 
 .topo__titulo {
-  margin: 2px 0 0;
+  margin: 1px 0 0;
   overflow: hidden;
-  font-size: clamp(18px, 1.5vw, 22px);
+  font-size: clamp(17px, 1.3vw, 20px);
   font-weight: 650;
   letter-spacing: -0.01em;
   text-overflow: ellipsis;
@@ -690,7 +686,7 @@ mark {
   align-items: center;
   justify-content: center;
   gap: 8px;
-  height: 42px;
+  height: 40px;
   padding: 0 18px;
   border: 0;
   border-radius: 999px;
@@ -704,16 +700,16 @@ mark {
   white-space: nowrap;
   transition: box-shadow 0.2s, color 0.2s, transform 0.2s var(--suave);
 }
-.acao:hover { box-shadow: var(--relevo); color: #fff; }
+.acao:hover { box-shadow: var(--relevo); color: var(--texto-forte); }
 .acao:active { transform: scale(0.97); box-shadow: var(--afundado-leve); }
 .acao .icone { width: 18px; height: 18px; }
 .acao--destaque {
   background: var(--ambar-400);
-  color: #1b1200;
+  color: #24190a;
   font-weight: 600;
-  box-shadow: 6px 6px 16px rgba(0, 0, 0, 0.45), -3px -3px 10px rgba(255, 255, 255, 0.03);
+  box-shadow: 6px 6px 16px rgba(184, 120, 20, 0.3), -4px -4px 12px rgba(255, 255, 255, 0.9);
 }
-.acao--destaque:hover { background: var(--ambar-300); color: #1b1200; }
+.acao--destaque:hover { background: var(--ambar-300); color: #24190a; }
 
 /* 9. Página inicial ======================================================
    Linguagem do "inicio.png" (soft UI): superfícies foscas, sombra dupla
@@ -732,7 +728,7 @@ mark {
 .cartao,
 .bloco {
   border-radius: 26px;
-  background: linear-gradient(160deg, var(--superficie) 0%, #151534 100%);
+  background: var(--superficie);
   box-shadow: var(--relevo);
 }
 
@@ -752,7 +748,7 @@ mark {
 }
 .abertura__local {
   margin: 0 0 10px;
-  color: var(--ambar-300);
+  color: var(--ambar-texto);
   font-size: 11.5px;
   font-weight: 600;
   letter-spacing: 0.18em;
@@ -782,7 +778,7 @@ mark {
   background: var(--poco);
   box-shadow: var(--afundado);
 }
-.abertura__logo { width: 196px; height: auto; opacity: 0.86; }
+.abertura__logo { width: 196px; height: auto; opacity: 0.9; }
 
 /* ---- Três números do topo ---- */
 .resumo {
@@ -811,7 +807,7 @@ mark {
   border-radius: 50%;
   background: var(--poco);
   box-shadow: var(--afundado-leve);
-  color: var(--ambar-300);
+  color: var(--ambar-texto);
 }
 .resumo__icone .icone { width: 18px; height: 18px; }
 .resumo__item--atalho .resumo__icone { color: var(--anel-2); }
@@ -827,13 +823,12 @@ mark {
 .resumo__valor {
   display: block;
   margin: 4px 0 0;
-  color: #fff;
+  color: var(--texto-forte);
   font-size: clamp(30px, 3.1vw, 40px);
   font-weight: 700;
   line-height: 1.05;
   letter-spacing: -0.035em;
   font-variant-numeric: tabular-nums;
-  text-shadow: 0 2px 10px rgba(0, 0, 0, 0.45);
 }
 .resumo__item--atalho .resumo__valor { font-size: clamp(23px, 2.2vw, 30px); }
 .resumo__nota { display: block; margin: 8px 0 0; color: var(--texto-3); font-size: 12.5px; }
@@ -898,7 +893,7 @@ mark {
   border-radius: 50%;
   background: var(--poco);
   box-shadow: var(--afundado-leve);
-  color: var(--cor-anel, var(--ambar-300));
+  color: var(--cor-anel, var(--ambar-texto));
 }
 .cartao__icone .icone { width: 19px; height: 19px; }
 .cartao__titulo { margin: 0; font-size: 15.5px; font-weight: 650; letter-spacing: -0.005em; }
@@ -907,7 +902,7 @@ mark {
 /* anel de proporção (quantos painéis o tema tem, comparado ao maior) */
 .anel { position: relative; width: 52px; height: 52px; flex: none; }
 .anel__grafico { width: 100%; height: 100%; transform: rotate(-90deg); }
-.anel__trilho { fill: none; stroke: rgba(0, 0, 0, 0.45); stroke-width: 6; }
+.anel__trilho { fill: none; stroke: rgba(28, 34, 68, 0.12); stroke-width: 6; }
 .anel__valor {
   fill: none;
   stroke: var(--cor-anel, var(--ambar-400));
@@ -920,7 +915,7 @@ mark {
   inset: 0;
   display: grid;
   place-items: center;
-  color: #fff;
+  color: var(--texto-forte);
   font-size: 14px;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -952,7 +947,7 @@ mark {
 .cartao__link:focus-visible {
   background: var(--superficie-2);
   box-shadow: var(--relevo-leve);
-  color: #fff;
+  color: var(--texto-forte);
 }
 .cartao__link:hover .icone,
 .cartao__link:focus-visible .icone { opacity: 1; transform: none; }
@@ -971,7 +966,7 @@ mark {
   text-align: center;
   transition: color 0.2s, box-shadow 0.2s;
 }
-.cartao__mais:hover { color: #fff; box-shadow: var(--relevo-leve); background: var(--superficie-2); }
+.cartao__mais:hover { color: var(--texto-forte); box-shadow: var(--relevo-leve); background: var(--superficie-2); }
 
 /* ---- Coluna lateral ---- */
 .coluna-lateral { display: grid; gap: 18px; }
@@ -998,7 +993,7 @@ mark {
   text-align: left;
   transition: color 0.2s;
 }
-.barra__botao:hover { color: #fff; }
+.barra__botao:hover { color: var(--texto-forte); }
 .barra__nome { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .barra__valor { color: var(--texto-3); font-size: 12px; font-variant-numeric: tabular-nums; }
 .barra__trilho {
@@ -1014,8 +1009,7 @@ mark {
   width: var(--proporcao, 0%);
   height: 100%;
   border-radius: inherit;
-  background: linear-gradient(90deg, var(--cor-anel, var(--ambar-400)), color-mix(in srgb, var(--cor-anel, var(--ambar-400)) 65%, #fff));
-  box-shadow: 0 0 10px -2px var(--cor-anel, var(--ambar-400));
+  background: linear-gradient(90deg, var(--cor-anel, var(--ambar-400)), color-mix(in srgb, var(--cor-anel, var(--ambar-400)) 70%, #fff));
 }
 
 .passos {
@@ -1046,11 +1040,11 @@ mark {
   border-radius: 50%;
   background: var(--poco);
   box-shadow: var(--afundado-leve);
-  color: var(--ambar-300);
+  color: var(--ambar-texto);
   font-size: 12px;
   font-weight: 700;
 }
-.passos strong { color: #fff; font-weight: 600; }
+.passos strong { color: var(--texto-forte); font-weight: 600; }
 
 /* ---- Rodapé ---- */
 .rodape {
@@ -1065,9 +1059,13 @@ mark {
   font-size: 12px;
 }
 .rodape p { margin: 0; }
-.rodape__marca { width: 34px; height: auto; flex: none; opacity: 0.55; }
+.rodape__marcas { display: flex; align-items: center; gap: 16px; flex: none; }
+.rodape__marca { width: 36px; height: auto; opacity: 0.85; }
+.rodape__marca + .rodape__semec { padding-left: 16px; border-left: 1px solid var(--linha); }
+.rodape__semec { width: auto; height: 38px; }
 .rodape__texto { line-height: 1.5; }
 .rodape__orgao { display: block; color: var(--texto-2); font-weight: 600; }
+.rodape__orgao + .rodape__orgao { font-weight: 500; }
 .rodape p.rodape__nota { margin-left: auto; }
 
 @container (max-width: 560px) {
@@ -1086,11 +1084,11 @@ mark {
   height: 100%;
   overflow: hidden;
   isolation: isolate;
-  border-radius: 20px;
+  border-radius: 18px;
   background: transparent; /* sem fundo branco: o que sobra é o fundo da janela */
 }
-.palco-moldura:fullscreen { border-radius: 0; background: var(--azul-950); padding: 0; }
-.palco-moldura::backdrop { background: var(--azul-950); }
+.palco-moldura:fullscreen { border-radius: 0; background: var(--fundo); padding: 0; }
+.palco-moldura::backdrop { background: var(--fundo); }
 
 .palco { position: absolute; inset: 0; }
 
@@ -1099,8 +1097,8 @@ mark {
 .palco__iframe,
 .carregando {
   position: absolute;
-  inset: 0;
-  margin: auto; /* centraliza nos dois eixos */
+  inset: 0 0 auto 0;
+  margin: 0 auto; /* encosta no topo e centraliza na horizontal */
   width: 100%;
   height: 100%;
   border: 0;
@@ -1185,7 +1183,7 @@ mark {
   padding: 18px 20px;
   border: 0;
   border-radius: 20px;
-  background: var(--superficie-2);
+  background: var(--superficie);
   box-shadow: var(--relevo-alto);
   color: var(--texto-2);
   font-size: 14px;
@@ -1194,14 +1192,14 @@ mark {
   animation: surgir 0.3s var(--suave);
 }
 .aviso p { margin: 0; }
-.aviso strong { color: #fff; }
+.aviso strong { color: var(--texto-forte); }
 
 /* 11. Página 404 ========================================================== */
 .vista--vazia { display: grid; place-items: center; min-height: 100%; padding: 32px 20px; }
 .estado-vazio { max-width: 460px; text-align: center; }
 .estado-vazio__codigo {
   margin: 0;
-  background: linear-gradient(180deg, #fff, rgba(255, 255, 255, 0.25));
+  background: linear-gradient(180deg, var(--texto-forte), rgba(28, 34, 68, 0.35));
   -webkit-background-clip: text;
   background-clip: text;
   color: transparent;
@@ -1218,31 +1216,9 @@ mark {
   position: fixed;
   inset: 0;
   z-index: 40;
-  background: rgba(4, 4, 16, 0.66);
+  background: rgba(20, 26, 60, 0.42);
   animation: aparecer 0.25s ease-out;
 }
-
-.toast {
-  position: fixed;
-  bottom: 28px;
-  left: 50%;
-  z-index: 100;
-  max-width: calc(100vw - 32px);
-  padding: 12px 20px;
-  border: 0;
-  border-radius: 999px;
-  background: var(--superficie-2);
-  box-shadow: var(--relevo-alto);
-  color: #fff;
-  font-size: 14px;
-  font-weight: 500;
-  opacity: 0;
-  pointer-events: none;
-  transform: translate(-50%, 16px);
-  transition: opacity 0.25s, transform 0.25s var(--suave);
-}
-.toast.is-visivel { opacity: 1; transform: translate(-50%, 0); }
-.toast:empty { display: none; }
 
 .dica-flutuante {
   position: fixed;
@@ -1250,8 +1226,8 @@ mark {
   padding: 8px 12px;
   border: 0;
   border-radius: 12px;
-  background: var(--superficie-2);
-  box-shadow: var(--relevo);
+  background: var(--texto-forte);
+  box-shadow: var(--sombra-flutuante);
   color: #fff;
   font-size: 13px;
   font-weight: 500;
@@ -1273,13 +1249,13 @@ mark {
   padding: 0;
   border: 0;
   border-radius: 50%;
-  background: var(--superficie-2);
+  background: var(--superficie);
   box-shadow: var(--relevo);
-  color: var(--texto);
+  color: var(--texto-2);
   animation: surgir 0.25s var(--suave);
   transition: background-color 0.2s, color 0.2s, box-shadow 0.2s;
 }
-.voltar-topo:hover { background: var(--ambar-400); color: #1b1200; box-shadow: var(--relevo-alto); }
+.voltar-topo:hover { background: var(--ambar-400); color: #24190a; box-shadow: var(--relevo-alto); }
 
 .sem-js {
   position: fixed;
@@ -1289,8 +1265,9 @@ mark {
   margin: 0 auto;
   padding: 16px 20px;
   border-radius: 16px;
-  background: #fff;
-  color: var(--azul-950);
+  background: var(--superficie);
+  box-shadow: var(--sombra-flutuante);
+  color: var(--texto);
 }
 
 @keyframes girar { to { transform: rotate(360deg); } }
@@ -1300,19 +1277,6 @@ mark {
 .aviso { --surgir-x: -50%; }
 
 /* 13. Responsivo ========================================================== */
-
-/* Notebooks: botões de ação só com ícone (exceto Tela cheia) */
-@media (max-width: 1360px) {
-  .acao:not(.acao--destaque) { width: 40px; padding: 0; }
-  .acao:not(.acao--destaque) .acao__texto {
-    position: absolute;
-    width: 1px;
-    height: 1px;
-    overflow: hidden;
-    clip: rect(0 0 0 0);
-    white-space: nowrap;
-  }
-}
 
 /* Tablets e celulares: menu vira gaveta */
 @media (max-width: 1023.98px) {
@@ -1332,7 +1296,7 @@ mark {
     left: 10px;
     z-index: 50;
     width: min(340px, calc(100vw - 48px));
-    background: linear-gradient(165deg, var(--janela-topo), #101026);
+    background: linear-gradient(165deg, var(--janela-topo), var(--janela));
     transform: translateX(calc(-100% - 24px));
     visibility: hidden;
     transition: transform 0.32s var(--suave), visibility 0s linear 0.32s;
@@ -1348,11 +1312,11 @@ mark {
   .lateral__rodape,
   .busca__atalho { display: none; }
 
-  .topo { min-height: 64px; padding: 10px 12px; gap: 10px; }
+  .topo { min-height: 52px; padding: 6px 10px; gap: 8px; }
   .app[data-vista="inicio"] .topo { display: flex; }
   .topo__menu { display: grid; }
 
-  .app[data-vista="painel"] .principal { padding: 8px; }
+  .app[data-vista="painel"] .principal { padding: 6px; }
   .palco-moldura { border-radius: 14px; }
   .palco__iframe,
   .carregando { border-radius: 12px; }
@@ -1393,10 +1357,6 @@ mark {
   .voltar-topo { right: 14px; bottom: 14px; }
 }
 
-@media (max-width: 400px) {
-  #acao-recarregar { display: none; }
-}
-
 /* 14. Acessibilidade e preferências ======================================= */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -1422,7 +1382,7 @@ mark {
   .nav__link[aria-current="page"] { outline: 2px solid Highlight; }
   .marca__logo,
   .marca__simbolo,
-  .abertura__logo { forced-color-adjust: none; background: #04032c; }
+  .abertura__logo { forced-color-adjust: none; }
   .resumo__item,
   .cartao,
   .bloco,
