@@ -16,7 +16,8 @@
  *
  *  Ícones disponíveis para as seções:
  *   prancheta, mapa, pessoas, broto, dinheiro, predio-publico,
- *   guindaste, arvore, alvo, barras, planta, escudo, banco-dados.
+ *   guindaste, arvore, alvo, barras, planta, escudo, banco-dados,
+ *   medidor, trofeu.
  *
  *  Por segurança, só são aceitos links https de app.powerbi.com
  *  (ajuste em assets/js/app.js > CONFIG.hostsPermitidos).
@@ -112,8 +113,20 @@ window.OBSERVATORIO_CATALOGO = [
       { titulo: "Agropecuária", url: "https://app.powerbi.com/view?r=eyJrIjoiZDJiNTQ5ZDgtY2UxYy00NzcxLWJlZjMtYmJlZjE4ZmJkNDc1IiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9&pageName=a69ee421e941cd513ac5" },
       { titulo: "Sociais", url: "https://app.powerbi.com/view?r=eyJrIjoiMjcxMWM5ZWItODNlMS00MjM0LTlmZDItMDgzZDk1MzI4ODUxIiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9&pageName=68828ceb4cddbf96154d" },
       { titulo: "Econômicos", url: "https://app.powerbi.com/view?r=eyJrIjoiOGNkZmM1MTItYThkNC00MzYwLWFkZDUtMWEyNWI5MzU1NmM0IiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9&pageName=5cce9e4945201bbad5ea" },
-      { titulo: "IDSC - PVH", url: "https://app.powerbi.com/view?r=eyJrIjoiODk0NWIzNDgtYWZhNi00ZjUyLWI3ODYtYWE0MTI5MGVjMjg2IiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9&pageName=de55ee04566c203363a4" },
-      { titulo: "IPS", url: "https://app.powerbi.com/view?r=eyJrIjoiNWQzNzg0NDMtYzg4MS00MWE0LWJmZTYtYjE0MGY2ZWM3MDlhIiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9&pageName=55fbeff5e297de5024c3" },
+      { titulo: "IDSC - PVH", url: "https://app.powerbi.com/view?r=eyJrIjoiODk0NWIzNDgtYWZhNi00ZjUyLWI3ODYtYWE0MTI5MGVjMjg2IiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9&pageName=de55ee04566c203363a4" }
+    ]
+  },
+  {
+    titulo: "IPS",
+    icone: "medidor",
+    paineis: [
+      { titulo: "IPS", url: "https://app.powerbi.com/view?r=eyJrIjoiNWQzNzg0NDMtYzg4MS00MWE0LWJmZTYtYjE0MGY2ZWM3MDlhIiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9&pageName=55fbeff5e297de5024c3" }
+    ]
+  },
+  {
+    titulo: "CLP",
+    icone: "trofeu",
+    paineis: [
       { titulo: "CLP", url: "https://app.powerbi.com/view?r=eyJrIjoiZTJkNjk5NjUtYTUxNy00NWEwLTlmMjEtMmZmNDE0NDNmN2Q2IiwidCI6IjU1ZDQ0MWRkLTQ1MzgtNGI1Yi04YjRiLTA4YjM3OTEzYTk5MyJ9" }
     ]
   },

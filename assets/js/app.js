@@ -1,5 +1,5 @@
 /**
- * Observatório Municipal de Dados — aplicação
+ * Observatório Municipal de Porto Velho — aplicação
  * ------------------------------------------------------------
  * JavaScript puro (sem dependências), compatível com GitHub Pages.
  * Lê o catálogo em assets/js/catalogo.js e monta:
@@ -26,7 +26,21 @@
     maxPaineisEmCache: 3,
     // Após este tempo sem carregar, sugere abrir em nova aba.
     avisoLentidaoMs: 20000,
-    chaveMenuRecolhido: 'observatorio:menu-recolhido'
+    chaveMenuRecolhido: 'observatorio:menu-recolhido',
+
+    // ---- Proporção dos relatórios (evita as faixas brancas) -------------
+    // O Power BI mantém a proporção da página do relatório e preenche o
+    // resto de branco. O site recorta a moldura na mesma proporção, sem
+    // esticar nada. Valor = largura ÷ altura da página do relatório.
+    // Medido nos painéis da Prefeitura: 1600 × 873 = 1.8326.
+    // Aceita número (1.8326) ou texto ("16/9", "16:9", "1600x900").
+    proporcaoPadrao: '1600/873',
+    // Exceções por rota, para relatórios feitos em outro tamanho.
+    // A rota é o que aparece no endereço depois de "#/".
+    proporcaoPorRota: {
+      'defesa-civil/projeto-acolher': '16/9',
+      'censo/censo-demografico': '16/9'
+    }
   };
 
   var catalogo = Array.isArray(window.OBSERVATORIO_CATALOGO) ? window.OBSERVATORIO_CATALOGO : [];
@@ -63,6 +77,22 @@
       return null;
     }
   }
+
+  /** Converte "16/9", "16:9", "1600x900" ou 1.7778 em número. */
+  function lerProporcao(valor) {
+    if (valor === undefined || valor === null || valor === '') return null;
+    if (typeof valor === 'number') return valor > 0 ? valor : null;
+    var texto = String(valor).trim().replace(',', '.');
+    var partes = texto.match(/^([\d.]+)\s*[/:x×]\s*([\d.]+)$/i);
+    if (partes) {
+      var razao = parseFloat(partes[1]) / parseFloat(partes[2]);
+      return razao > 0 && isFinite(razao) ? razao : null;
+    }
+    var numero = parseFloat(texto);
+    return numero > 0 ? numero : null;
+  }
+
+  var proporcaoPadrao = lerProporcao(CONFIG.proporcaoPadrao) || 16 / 9;
 
   function el(tag, atributos, filhos) {
     var no = document.createElement(tag);
@@ -131,6 +161,7 @@
         titulo: titulo,
         descricao: p.descricao ? String(p.descricao) : '',
         atualizado: p.atualizado ? String(p.atualizado) : '',
+        proporcao: lerProporcao(p.proporcao),
         url: url,
         secao: secao
       });
@@ -146,6 +177,8 @@
       var s = criarSlug(p.titulo) || 'painel';
       if (usados[s]) s += '-' + (++usados[s]); else usados[s] = 1;
       p.rota = secao.unica ? secao.id : secao.id + '/' + s;
+      // prioridade: painel no catálogo > exceção por rota > padrão
+      if (!p.proporcao) p.proporcao = lerProporcao(CONFIG.proporcaoPorRota[p.rota]) || proporcaoPadrao;
       paineisPorRota.set(p.rota, p);
     });
 
@@ -378,42 +411,150 @@
   }
 
   /* ----------------------------------------------------------
-   * Página inicial
+   * Página inicial (cartões de tema, barras e atalho)
    * -------------------------------------------------------- */
+  var LIMITE_LISTA = 5; // painéis visíveis por cartão antes de "mostrar mais"
+  var CORES_ANEL = ['var(--anel-1)', 'var(--anel-2)', 'var(--anel-3)'];
+
+  /** Anel de proporção: quanto o tema representa diante do maior tema. */
+  function anel(quantidade, maximo) {
+    var raio = 22;
+    var circunferencia = 2 * Math.PI * raio;
+    var svg = document.createElementNS(SVG_NS, 'svg');
+    svg.setAttribute('class', 'anel__grafico');
+    svg.setAttribute('viewBox', '0 0 52 52');
+    svg.setAttribute('aria-hidden', 'true');
+    svg.setAttribute('focusable', 'false');
+
+    ['anel__trilho', 'anel__valor'].forEach(function (classe) {
+      var circulo = document.createElementNS(SVG_NS, 'circle');
+      circulo.setAttribute('class', classe);
+      circulo.setAttribute('cx', '26');
+      circulo.setAttribute('cy', '26');
+      circulo.setAttribute('r', String(raio));
+      if (classe === 'anel__valor') {
+        circulo.setAttribute('stroke-dasharray', circunferencia.toFixed(1));
+        circulo.setAttribute('stroke-dashoffset', (circunferencia * (1 - quantidade / maximo)).toFixed(1));
+      }
+      svg.appendChild(circulo);
+    });
+
+    return el('span', { class: 'anel' }, [svg, el('span', { class: 'anel__numero', text: String(quantidade) })]);
+  }
+
   function montarInicio() {
     $('#total-temas').textContent = String(secoes.length);
     $('#total-paineis').textContent = String(totalPaineis);
+    montarCartoes();
+    montarBarras();
+    montarAtalho();
+  }
 
+  function montarCartoes() {
     var grade = $('#grade-temas');
     var fragmento = document.createDocumentFragment();
+    var maior = secoes.reduce(function (maximo, s) { return Math.max(maximo, s.paineis.length); }, 0) || 1;
 
-    secoes.forEach(function (secao) {
+    secoes.forEach(function (secao, indice) {
       var lista = el('ul', { class: 'cartao__lista', role: 'list' });
-      secao.paineis.forEach(function (p) {
-        var rotulo = secao.unica ? 'Abrir painel' : p.titulo;
-        var link = el('a', { class: 'cartao__link', href: '#/' + p.rota }, [el('span', { text: rotulo })]);
-        if (secao.unica) {
-          link.classList.add('cartao__link--unico');
-          link.setAttribute('aria-label', 'Abrir painel ' + p.titulo);
-          link.appendChild(icone('seta-direita'));
-        }
-        lista.appendChild(el('li', {}, [link]));
+
+      secao.paineis.forEach(function (p, indice) {
+        var item = el('li', {}, [
+          el('a', { class: 'cartao__link', href: '#/' + p.rota }, [
+            el('span', { text: p.titulo }),
+            icone('seta-direita')
+          ])
+        ]);
+        if (indice >= LIMITE_LISTA) item.hidden = true;
+        lista.appendChild(item);
       });
 
-      var qtd = secao.paineis.length;
-      fragmento.appendChild(el('li', { class: 'cartao' + (qtd > 6 ? ' cartao--grande' : '') }, [
+      var quantidade = secao.paineis.length;
+      var cartao = el('li', { class: 'cartao', id: 'tema-' + secao.id }, [
         el('div', { class: 'cartao__topo' }, [
           el('span', { class: 'cartao__icone' }, [icone(secao.icone)]),
           el('div', {}, [
             el('h3', { class: 'cartao__titulo', text: secao.titulo }),
-            el('p', { class: 'cartao__meta', text: qtd + (qtd === 1 ? ' painel' : ' painéis') })
-          ])
+            el('p', { class: 'cartao__meta', text: quantidade + (quantidade === 1 ? ' painel' : ' painéis') })
+          ]),
+          anel(quantidade, maior)
         ]),
         lista
-      ]));
+      ]);
+      secao.cor = CORES_ANEL[indice % CORES_ANEL.length];
+      cartao.style.setProperty('--cor-anel', secao.cor);
+
+      var ocultos = quantidade - LIMITE_LISTA;
+      if (ocultos > 0) {
+        var botao = el('button', {
+          class: 'cartao__mais',
+          type: 'button',
+          'aria-expanded': 'false',
+          text: 'Mostrar mais ' + ocultos
+        });
+        botao.addEventListener('click', function () {
+          var abrir = botao.getAttribute('aria-expanded') !== 'true';
+          $$('li', lista).forEach(function (item, indice) {
+            item.hidden = !abrir && indice >= LIMITE_LISTA;
+          });
+          botao.setAttribute('aria-expanded', String(abrir));
+          botao.textContent = abrir ? 'Mostrar menos' : 'Mostrar mais ' + ocultos;
+        });
+        cartao.appendChild(botao);
+      }
+
+      fragmento.appendChild(cartao);
     });
 
     grade.appendChild(fragmento);
+  }
+
+  /** Barras "painéis por tema": levam ao cartão do tema. */
+  function montarBarras() {
+    var lista = $('#barras-temas');
+    if (!lista) return;
+    var maior = secoes.reduce(function (maximo, s) { return Math.max(maximo, s.paineis.length); }, 0) || 1;
+
+    secoes.forEach(function (secao) {
+      var preenchimento = el('span', { class: 'barra__preenchimento' });
+      preenchimento.style.setProperty('--proporcao', Math.round((secao.paineis.length / maior) * 100) + '%');
+
+      var botao = el('button', {
+        class: 'barra__botao',
+        type: 'button',
+        'aria-label': 'Ver o tema ' + secao.titulo + ' (' + secao.paineis.length + ' painéis)'
+      }, [
+        el('span', { class: 'barra__nome', text: secao.titulo }),
+        el('span', { class: 'barra__valor', text: String(secao.paineis.length) }),
+        el('span', { class: 'barra__trilho', 'aria-hidden': 'true' }, [preenchimento])
+      ]);
+      botao.addEventListener('click', function () { destacarTema(secao.id); });
+
+      botao.style.setProperty('--cor-anel', secao.cor || CORES_ANEL[0]);
+      lista.appendChild(el('li', { class: 'barra' }, [botao]));
+    });
+  }
+
+  function destacarTema(id) {
+    var cartao = document.getElementById('tema-' + id);
+    if (!cartao) return;
+    rolarPara(cartao);
+    cartao.classList.add('is-destacado');
+    var primeiro = $('a.cartao__link', cartao);
+    if (primeiro) primeiro.focus({ preventScroll: true });
+    window.setTimeout(function () { cartao.classList.remove('is-destacado'); }, 1800);
+  }
+
+  /** "Comece por": aponta para o tema com mais painéis. */
+  function montarAtalho() {
+    var link = $('#atalho-destaque');
+    if (!link || !secoes.length) return;
+    var maior = secoes.slice().sort(function (a, b) { return b.paineis.length - a.paineis.length; })[0];
+    var painel = maior.paineis[0];
+    link.href = '#/' + painel.rota;
+    link.setAttribute('aria-label', 'Comece por ' + maior.titulo + ': abrir o painel ' + painel.titulo);
+    $('#atalho-titulo').textContent = maior.titulo;
+    $('#atalho-nota').textContent = maior.paineis.length + ' painéis · abrir ' + painel.titulo;
   }
 
   /* ----------------------------------------------------------
@@ -440,6 +581,11 @@
     return registro;
   }
 
+  /** Ajusta a moldura à proporção do relatório (sem esticar a imagem). */
+  function aplicarProporcao(painel) {
+    palco.style.setProperty('--razao-painel', String(painel.proporcao || proporcaoPadrao));
+  }
+
   function podarCache() {
     while (cache.size > CONFIG.maxPaineisEmCache) {
       var maisAntiga = cache.keys().next().value;
@@ -451,6 +597,8 @@
 
   function exibirIframe(painel, recarregar) {
     var registro = cache.get(painel.rota);
+
+    aplicarProporcao(painel);
 
     if (registro && recarregar) {
       registro.iframe.remove();
@@ -710,15 +858,7 @@
     });
 
     $('#busca-trilho').addEventListener('click', focarBusca);
-    $('#focar-busca').addEventListener('click', focarBusca);
 
-    // Âncoras internas: rolam a página sem alterar a rota
-    $('#ir-temas').addEventListener('click', function (evento) {
-      evento.preventDefault();
-      var alvo = $('#temas');
-      rolarPara(alvo);
-      alvo.focus({ preventScroll: true });
-    });
     $('.pular-link').addEventListener('click', function (evento) {
       evento.preventDefault();
       var alvo = app.getAttribute('data-vista') === 'painel' ? tituloPainel : principal;
