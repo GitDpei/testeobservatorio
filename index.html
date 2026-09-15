@@ -11,8 +11,8 @@
   <meta name="referrer" content="strict-origin-when-cross-origin">
 
   <!-- Identidade / PWA -->
-  <meta name="theme-color" content="#04032c">
-  <meta name="color-scheme" content="dark">
+  <meta name="theme-color" content="#f3f6fb">
+  <meta name="color-scheme" content="light">
   <link rel="icon" href="assets/img/favicon.ico" sizes="any">
   <link rel="icon" href="assets/img/favicon-32.png" type="image/png" sizes="32x32">
   <link rel="apple-touch-icon" href="assets/img/apple-touch-icon.png">
@@ -97,8 +97,8 @@
     <aside class="lateral vidro" id="menu-lateral" aria-label="Menu de painéis">
       <div class="lateral__marca">
         <a class="marca" href="#/" title="Página inicial">
-          <img class="marca__logo" src="assets/img/logo-branco.png" alt="Observatório Municipal de Porto Velho — página inicial" width="1000" height="316" decoding="async">
-          <img class="marca__simbolo" src="assets/img/simbolo-branco.png" alt="Observatório Municipal de Porto Velho — página inicial" width="176" height="123" decoding="async">
+          <img class="marca__logo" src="assets/img/logo-azul.png" alt="Observatório Municipal de Porto Velho — página inicial" width="1000" height="316" decoding="async">
+          <img class="marca__simbolo" src="assets/img/simbolo-azul.png" alt="Observatório Municipal de Porto Velho — página inicial" width="176" height="123" decoding="async">
         </a>
         <button class="botao-icone lateral__fechar" id="botao-fechar-menu" type="button" aria-label="Fechar menu">
           <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-fechar"/></svg>
@@ -153,18 +153,6 @@
         </div>
 
         <div class="acoes" id="acoes-painel" hidden>
-          <button class="acao" id="acao-recarregar" type="button" title="Recarregar painel">
-            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-recarregar"/></svg>
-            <span class="acao__texto">Recarregar</span>
-          </button>
-          <button class="acao" id="acao-copiar" type="button" title="Copiar link deste painel">
-            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-link"/></svg>
-            <span class="acao__texto">Copiar link</span>
-          </button>
-          <a class="acao" id="acao-nova-aba" href="#" target="_blank" rel="noopener noreferrer" title="Abrir no Power BI em nova aba">
-            <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-nova-aba"/></svg>
-            <span class="acao__texto">Nova aba</span>
-          </a>
           <button class="acao acao--destaque" id="acao-tela-cheia" type="button" aria-pressed="false" title="Ver em tela cheia">
             <svg class="icone" aria-hidden="true" focusable="false"><use href="#i-tela-cheia"/></svg>
             <span class="acao__texto">Tela cheia</span>
@@ -184,7 +172,7 @@
               <p class="abertura__descricao">Os números públicos do município reunidos em painéis interativos: população, território, economia, finanças, serviços e meio ambiente.</p>
             </div>
             <div class="abertura__moldura">
-              <img class="abertura__logo" src="assets/img/logo-branco.png" alt="" width="1000" height="316" decoding="async">
+              <img class="abertura__logo" src="assets/img/logo-azul.png" alt="" width="1000" height="316" decoding="async">
             </div>
           </header>
 
@@ -238,10 +226,14 @@
           </div>
 
           <footer class="rodape">
-            <img class="rodape__marca" src="assets/img/simbolo-branco.png" alt="" width="176" height="123" loading="lazy">
+            <div class="rodape__marcas">
+              <img class="rodape__marca" src="assets/img/simbolo-azul.png" alt="" width="176" height="123" loading="lazy">
+              <img class="rodape__semec" src="assets/img/semec-horizontal-azul.png" alt="Secretaria Municipal de Economia — SEMEC · Cidade de Porto Velho" width="640" height="117" loading="lazy">
+            </div>
             <p class="rodape__texto">
               © <span id="ano-atual">2026</span> Observatório Municipal de Porto Velho
               <span class="rodape__orgao">Departamento de Pesquisa, Estatística e Indicadores — DPEI</span>
+              <span class="rodape__orgao">Secretaria Municipal de Economia — SEMEC</span>
             </p>
             <p class="rodape__nota">Painéis publicados com Microsoft Power BI</p>
           </footer>
@@ -292,7 +284,6 @@
   </div>
 
   <div class="dica-flutuante" id="dica-flutuante" role="tooltip" hidden></div>
-  <div class="toast" id="toast" role="status" aria-live="polite"></div>
   <div class="sr-only" id="anunciador" aria-live="polite" aria-atomic="true"></div>
 
   <noscript>

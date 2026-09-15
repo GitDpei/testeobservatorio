@@ -85,6 +85,25 @@ python -m http.server 8000
 # acesse http://localhost:8000
 ```
 
+## Proporção dos painéis
+
+O Power BI encaixa o relatório mantendo a proporção da página e pinta o resto de branco. O site
+recorta a moldura do painel **na mesma proporção do relatório**, então não sobra faixa branca e nada
+é esticado. O padrão está em `assets/css/styles.css` (`--razao-painel`, medido em 1600 × 873 = 1.8326)
+e as exceções por painel em `assets/js/app.js` (`CONFIG.proporcaoPorRota`) ou no próprio catálogo:
+
+```js
+{ titulo: "Nome do painel", url: "https://app.powerbi.com/view?r=...", proporcao: "16/9" },
+```
+
+Sobrou branco dos lados? Aumente a razão. Sobrou em cima e embaixo? Diminua.
+
+## Página inicial
+
+Segue o estilo "soft UI": superfícies foscas, sombra dupla (relevo), poços afundados para campos,
+ícones e trilhos, e anéis de proporção nos cartões de tema. Os tokens ficam no topo de
+`assets/css/styles.css` (seção 2) e o conteúdo é montado por `montarInicio()` em `assets/js/app.js`.
+
 ## Decisões técnicas
 
 | Tema | Como foi feito |
